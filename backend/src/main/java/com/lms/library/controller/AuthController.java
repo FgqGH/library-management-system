@@ -26,4 +26,9 @@ public class AuthController {
 
     @PostMapping("/logout")
     public Result<Void> logout() { return Result.ok(); }
+
+    @PostMapping("/login")
+    public Result<AdminLoginResponse> login(@Valid @RequestBody LoginRequest req) {
+        return Result.ok(authService.adminLogin(req));
+    }
 }
