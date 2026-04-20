@@ -9,9 +9,10 @@ on:
     paths: [frontend/**]
 
 env:
-  FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-  FIREBASE_PROJECT_ID: ${{ vars.FIREBASE_PROJECT_ID }}
-  FIREBASE_SITE_ID: ${{ vars.FIREBASE_SITE_ID }}
+  GCP_PROJECT_ID: ${{ vars.GCP_PROJECT_ID }}
+  GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+  AR_REPO: ${{ vars.AR_REPO }}
+  REGION: asia-east1
 
 jobs:
   test-frontend:
@@ -36,9 +37,6 @@ jobs:
     needs: test-frontend
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: frontend
     steps:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
@@ -49,10 +47,30 @@ jobs:
         run: flutter pub get
       - name: Build Web
         run: flutter build web --release
-      - name: Deploy to Firebase
-        uses: FirebaseExtended/action-hosting-deploy@v0
+        working-directory: frontend
+
+      - name: Authenticate to GCP
+        uses: google-github-actions/auth@v2
         with:
-          firebaseServiceAccount: ${{ env.FIREBASE_TOKEN }}
-          projectId: ${{ env.FIREBASE_PROJECT_ID }}
-          channelId: live
-          entryPoint: frontend
+          credentials_json: ${{ env.GCP_SA_KEY }}
+
+      - name: Configure Docker
+        run: gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev
+
+      - name: Build and push Docker image
+        run: |
+          cd frontend
+          docker build -t ${{ env.REGION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.AR_REPO }}/lms-frontend:${{ github.sha }} .
+          docker push ${{ env.REGION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.AR_REPO }}/lms-frontend:${{ github.sha }}
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy lms-frontend \
+            --image=${{ env.REGION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.AR_REPO }}/lms-frontend:${{ github.sha }} \
+            --region=${{ env.REGION }} \
+            --platform=managed \
+            --allow-unauthenticated \
+            --port=8080 \
+            --min-instances=1 \
+            --memory=256Mi \
+            --concurrency=1000

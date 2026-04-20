@@ -3,47 +3,14 @@
   "description": "图书管理系统",
   "status": "in_progress",
   "startedAt": "2026-04-20T01:33:00Z",
-  "lastUpdated": "2026-04-20T01:33:00Z",
-  "currentStep": "backend_dev",
+  "lastUpdated": "2026-04-20T01:40:00Z",
+  "currentStep": "github_push_done",
   "steps": [
-    {
-      "id": "spec_design",
-      "name": "需求分析 & 规格说明",
-      "dependsOn": [],
-      "status": "completed",
-      "completedAt": "2026-04-20T01:33:00Z"
-    },
-    {
-      "id": "backend_dev",
-      "name": "后端开发",
-      "dependsOn": [],
-      "status": "in_progress",
-      "startedAt": "2026-04-20T01:33:00Z"
-    },
-    {
-      "id": "backend_test",
-      "name": "后端测试",
-      "dependsOn": ["backend_dev"],
-      "status": "pending"
-    },
-    {
-      "id": "backend_deploy",
-      "name": "后端部署",
-      "dependsOn": ["backend_test"],
-      "status": "pending"
-    },
-    {
-      "id": "frontend_dev",
-      "name": "前端开发",
-      "dependsOn": ["backend_dev"],
-      "status": "pending"
-    },
-    {
-      "id": "frontend_deploy",
-      "name": "前端部署",
-      "dependsOn": ["frontend_dev"],
-      "status": "pending"
-    }
+    { "id": "spec_design", "name": "需求分析 & 规格说明", "dependsOn": [], "status": "completed", "completedAt": "2026-04-20T01:33:00Z" },
+    { "id": "backend_dev", "name": "后端开发", "dependsOn": [], "status": "completed", "completedAt": "2026-04-20T01:38:00Z", "note": "Spring Boot，含 Book/Reader/Admin/BorrowRecord Entity + JWT + Flyway" },
+    { "id": "frontend_dev", "name": "前端开发", "dependsOn": [], "status": "completed", "completedAt": "2026-04-20T01:40:00Z", "note": "Flutter Web，读者端4个页面 + 管理端4个页面" },
+    { "id": "github_push", "name": "GitHub仓库创建并推送", "dependsOn": [], "status": "completed", "completedAt": "2026-04-20T01:40:00Z", "note": "FgqGH/library-management-system" },
+    { "id": "github_config", "name": "GitHub Secrets/Variables配置", "dependsOn": [], "status": "completed", "completedAt": "2026-04-20T01:40:00Z" }
   ],
   "errors": []
 }
