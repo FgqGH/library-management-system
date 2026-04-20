@@ -1,0 +1,11 @@
+{
+  "name": "图书管理系统",
+  "short_name": "LMS",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#0175C2",
+  "theme_color": "#0175C2",
+  "description": "校园图书管理系统",
+  "orientation": "portrait-primary",
+  "prefer_related_applications": false
+}

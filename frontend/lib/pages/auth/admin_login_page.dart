@@ -60,14 +60,14 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
                     TextFormField(
                       controller: _usernameCtrl,
                       decoration: const InputDecoration(labelText: '用户名', prefixIcon: Icon(Icons.person)),
-                      validator: (v) => v == null || v.isBlank ? '请输入用户名' : null,
+                      validator: (v) => v == null || v.trim().isEmpty ? '请输入用户名' : null,
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: _passwordCtrl,
                       decoration: const InputDecoration(labelText: '密码', prefixIcon: Icon(Icons.lock)),
                       obscureText: true,
-                      validator: (v) => v == null || v.isBlank ? '请输入密码' : null,
+                      validator: (v) => v == null || v.trim().isEmpty ? '请输入密码' : null,
                     ),
                     if (_error != null) ...[
                       const SizedBox(height: 8),

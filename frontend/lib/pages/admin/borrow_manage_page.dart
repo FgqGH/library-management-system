@@ -61,7 +61,7 @@ class _BorrowManagePageState extends State<BorrowManagePage> {
                 return Card(
                   child: ListTile(
                     leading: CircleAvatar(
-                      backgroundColor: _statusColor(r.status)[100],
+                      backgroundColor: _statusColor(r.status).withAlpha(26),
                       child: Icon(Icons.book, color: _statusColor(r.status)),
                     ),
                     title: Text('图书 #${r.bookId}'),

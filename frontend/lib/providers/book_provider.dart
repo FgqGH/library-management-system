@@ -17,7 +17,7 @@ class BookProvider extends ChangeNotifier {
     _loading = true;
     notifyListeners();
     try {
-      final params = {'page': page, 'limit': limit};
+      final params = <String, dynamic>{'page': page, 'limit': limit};
       if (keyword != null && keyword.isNotEmpty) params['keyword'] = keyword;
       if (category != null && category.isNotEmpty) params['category'] = category;
       final resp = await _client.get('/books', params: params);

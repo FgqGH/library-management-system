@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class DioClient {
   static const String baseUrl = String.fromEnvironment(
     'API_URL',
-    defaultValue: 'https://lms-backend-placeholder.asia-east1.run.app/api',
+    defaultValue: 'https://lms-backend-385311213796.asia-east1.run.app/api',
   );
 
   late final Dio _dio;

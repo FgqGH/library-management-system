@@ -5,7 +5,7 @@ class ApiResult<T> {
 
   ApiResult({required this.code, required this.message, this.data});
 
-  factory ApiResult.fromJson(Map<String, dynamic> json, T Function(dynamic)? fromJsonT) {
+  factory ApiResult.fromJson(Map<String, dynamic> json, T Function(Map<String, dynamic>)? fromJsonT) {
     return ApiResult(
       code: json['code'] ?? 0,
       message: json['message'] ?? '',
