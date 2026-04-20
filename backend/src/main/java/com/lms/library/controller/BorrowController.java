@@ -22,7 +22,7 @@ public class BorrowController {
             @RequestParam(defaultValue = "20") int limit,
             @AuthenticationPrincipal LoginUser user) {
         // 读者只能看自己的借阅记录
-        if ("READER".equals(user.role)) {
+        if ("READER".equals(user.role())) {
             return Result.ok(borrowService.myBorrows(user.userId(), page, limit));
         }
         return Result.ok(borrowService.list(readerId, bookId, status, page, limit));
