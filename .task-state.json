@@ -1,0 +1,49 @@
+{
+  "taskId": "t20260420-002",
+  "description": "图书管理系统",
+  "status": "in_progress",
+  "startedAt": "2026-04-20T01:33:00Z",
+  "lastUpdated": "2026-04-20T01:33:00Z",
+  "currentStep": "backend_dev",
+  "steps": [
+    {
+      "id": "spec_design",
+      "name": "需求分析 & 规格说明",
+      "dependsOn": [],
+      "status": "completed",
+      "completedAt": "2026-04-20T01:33:00Z"
+    },
+    {
+      "id": "backend_dev",
+      "name": "后端开发",
+      "dependsOn": [],
+      "status": "in_progress",
+      "startedAt": "2026-04-20T01:33:00Z"
+    },
+    {
+      "id": "backend_test",
+      "name": "后端测试",
+      "dependsOn": ["backend_dev"],
+      "status": "pending"
+    },
+    {
+      "id": "backend_deploy",
+      "name": "后端部署",
+      "dependsOn": ["backend_test"],
+      "status": "pending"
+    },
+    {
+      "id": "frontend_dev",
+      "name": "前端开发",
+      "dependsOn": ["backend_dev"],
+      "status": "pending"
+    },
+    {
+      "id": "frontend_deploy",
+      "name": "前端部署",
+      "dependsOn": ["frontend_dev"],
+      "status": "pending"
+    }
+  ],
+  "errors": []
+}

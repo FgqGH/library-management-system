@@ -1,0 +1,42 @@
+steps:
+  - name: maven:3.9-eclipse-temurin-17
+    id: Build
+    entrypoint: mvn
+    args: [package, -DskipTests]
+    dir: backend
+
+  - name: gcr.io/cloud-builders/docker
+    id: Build Image
+    args: [build, -t, asia-east1-docker.pkg.dev/$PROJECT_ID/lms/lms-backend:$COMMIT_SHA, ./backend]
+
+  - name: gcr.io/cloud-builders/docker
+    id: Push
+    args: [push, asia-east1-docker.pkg.dev/$PROJECT_ID/lms/lms-backend:$COMMIT_SHA]
+
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    id: Deploy
+    entrypoint: gcloud
+    args:
+      - run
+      - deploy
+      - lms-backend
+      - --image=asia-east1-docker.pkg.dev/$PROJECT_ID/lms/lms-backend:$COMMIT_SHA
+      - --region=asia-east1
+      - --platform=managed
+      - --allow-unauthenticated
+      - --port=8080
+      - --min-instances=1
+      - --memory=512Mi
+      - --set-env-vars=DB_HOST=$$DB_HOST,DB_PORT=$$DB_PORT,DB_NAME=$$DB_NAME,DB_USERNAME=$$DB_USERNAME,DB_PASSWORD=$$DB_PASSWORD,JWT_SECRET=$$JWT_SECRET
+    env:
+      - DB_HOST=${_DB_HOST}
+      - DB_PORT=${_DB_PORT}
+      - DB_NAME=${_DB_NAME}
+      - DB_USERNAME=${_DB_USERNAME}
+      - DB_PASSWORD=${_DB_PASSWORD}
+      - JWT_SECRET=${_JWT_SECRET}
+
+images:
+  - asia-east1-docker.pkg.dev/$PROJECT_ID/lms/lms-backend:$COMMIT_SHA
+
+timeout: 1200s
